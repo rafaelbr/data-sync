@@ -30,3 +30,13 @@ def retrieveAll():
 				record[field] = hit['_source'][field]
 			records.append(record)
 		return records
+
+def updateData(data):
+	"Update record into ES Server. Data must be a dictionary"
+	id = data['id']
+	del data['id']
+	try:
+		Client.index(index=Configuration['index'], doc_type=Configuration['lookup_type'], id=id, body=data)
+	except ConnectionError:
+		log.info("Exception trying to access ElasticSearch cluster")
+

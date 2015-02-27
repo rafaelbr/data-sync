@@ -8,7 +8,7 @@ op = Operations.Operations()
 op.initCassandra()
 op.inquiryTable()
 
-for data in IndexLookup.retrieveAll():
-	op.updateData(data)
+for row in op.retrieveAllData():
+	IndexLookup.updateData(row)
 
 op.closeConnection()

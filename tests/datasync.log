@@ -1,0 +1,42 @@
+Connection opened
+Connection opened
+Starting new HTTP connection (1): localhost
+Starting new HTTP connection (1): localhost
+GET http://localhost:9200/syncdata/_search [status:200 request:0.012s]
+GET http://localhost:9200/syncdata/_search [status:200 request:0.012s]
+curl -XGET 'http://localhost:9200/syncdata/_search?pretty' -d '{
+  "fields": [
+    "_timestamp",
+    "_source"
+  ],
+  "query": {
+    "filtered": {
+      "filter": {
+        "range": {
+          "_timestamp": {
+            "gt": "2015-02-28T00:00:00"
+          }
+        }
+      }
+    }
+  }
+}'
+curl -XGET 'http://localhost:9200/syncdata/_search?pretty' -d '{
+  "fields": [
+    "_timestamp",
+    "_source"
+  ],
+  "query": {
+    "filtered": {
+      "filter": {
+        "range": {
+          "_timestamp": {
+            "gt": "2015-02-28T00:00:00"
+          }
+        }
+      }
+    }
+  }
+}'
+Connection closed
+Connection closed

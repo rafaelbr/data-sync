@@ -1,5 +1,6 @@
 from ConfigParser import ConfigParser
 from cassandra.cluster import Cluster
+from apcassandra import Configuration
 import logging
 import os
 
@@ -8,42 +9,29 @@ class CassandraClient:
 	session = None
 	cluster = None
 	metadata = None
-	configuration = {}
-
-	log = logging.getLogger()
+	configuration = Configuration
 
 	def __init__(self):
-		#retrive configuration parameter
-		Parser = ConfigParser()
-		path = os.path.dirname(__file__)
-		path = os.path.split(path)[0]
-		Parser.read(path + "/config.ini")
-		for option in Parser.options("Cassandra"):
-			try:
-				self.configuration[option] = Parser.get("Cassandra", option)
-			except:
-				self.configuration[option] = None
-		for option in Parser.options("Global"):
-			try:
-				self.configuration[option] = Parser.get("Global", option)
-			except:
-				self.configuration[option] = None
+		self.log = logging.getLogger()
 
-		#init database assets
-		self.cluster = Cluster([self.configuration['cluster_address']])
-		self.metadata = self.cluster.metadata
+		
+
 
 	def connect(self):
 		"Init connection and create session"
+		
+		#init database assets
+		self.cluster = Cluster([self.configuration['cluster_address']])
+		self.metadata = self.cluster.metadata
 		#init connection, must handle the exception
 		self.session = self.cluster.connect(self.configuration['keyspace'])
-		self.log.info("Connection opened")
+		self.log.debug("Connection opened")
 
 	def close(self): 
 		"Close session and cluster"
 		self.session.cluster.shutdown()
 		self.session.shutdown()
-		self.log.info("Connection closed")
+		self.log.debug("Connection closed")
 
 	def executeQuery(self, query): 
 		"Execute string query directly"

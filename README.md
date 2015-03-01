@@ -28,3 +28,4 @@ Some modules are required for daemon to work:
 ## Usage
 
 Simple run python data-sync.py start|stop|restart to control the daemon. The config.ini has the configuration parameters for daemon, i.e., the update time, connection info for cassandra and elasticsearch and the table/index to lookup and sync.
+The daemon operation can be seen in datasync.log
